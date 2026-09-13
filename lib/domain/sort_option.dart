@@ -11,7 +11,7 @@ enum SortOption {
 
   /// 저장해 둔 값을 되살릴 때 씁니다. 모르는 값이면 기본값으로 떨어집니다.
   static SortOption fromStorage(String? name) => SortOption.values.firstWhere(
-        (SortOption option) => option.name == name,
-        orElse: () => SortOption.name,
-      );
+    (SortOption option) => option.name == name,
+    orElse: () => SortOption.name,
+  );
 }

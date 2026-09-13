@@ -6,11 +6,7 @@ import '../../../theme/theme.dart';
 /// 기간 탭입니다. 선택된 탭에 `accentBg` 바탕과 `accentDefault` 글자색이
 /// 적용됩니다.
 class PeriodTabs extends StatelessWidget {
-  const PeriodTabs({
-    required this.selected,
-    required this.onSelect,
-    super.key,
-  });
+  const PeriodTabs({required this.selected, required this.onSelect, super.key});
 
   final ChartPeriod selected;
   final ValueChanged<ChartPeriod> onSelect;
@@ -29,8 +25,7 @@ class PeriodTabs extends StatelessWidget {
               onTap: () => onSelect(period),
             ),
           ),
-          if (period != ChartPeriod.values.last)
-            SizedBox(width: dimens.space1),
+          if (period != ChartPeriod.values.last) SizedBox(width: dimens.space1),
         ],
       ],
     );
@@ -68,8 +63,9 @@ class _PeriodTab extends StatelessWidget {
           style: TextStyle(
             color: isSelected ? colors.accentDefault : colors.textSecondary,
             fontSize: 14,
-            fontWeight:
-                isSelected ? AppTypography.medium : AppTypography.regular,
+            fontWeight: isSelected
+                ? AppTypography.medium
+                : AppTypography.regular,
             height: 1.4,
           ),
         ),

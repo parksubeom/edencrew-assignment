@@ -102,8 +102,9 @@ abstract final class SiseDayParser {
   /// `<span class="blind">`의 한글(상승/하락/보합) 대신 class를 보는 이유는,
   /// class가 문자 인코딩과 무관하게 안정적이기 때문입니다.
   static int _parseChange(dom.Element cell) {
-    final int magnitude =
-        _parseNumber(cell.querySelector('span.tah')?.text ?? cell.text);
+    final int magnitude = _parseNumber(
+      cell.querySelector('span.tah')?.text ?? cell.text,
+    );
     if (magnitude == 0) return 0;
 
     final String marker = cell.querySelector('em')?.className ?? '';
@@ -122,8 +123,9 @@ abstract final class SiseDayParser {
   /// 페이지 네비게이션의 `맨뒤` 링크(`<td class="pgRR">`)에서 마지막 페이지를
   /// 읽습니다. 마지막 페이지에는 이 링크가 없어 [fallback]을 씁니다.
   static int _parseLastPage(dom.Document document, {required int fallback}) {
-    final String? href =
-        document.querySelector('td.pgRR a')?.attributes['href'];
+    final String? href = document
+        .querySelector('td.pgRR a')
+        ?.attributes['href'];
     if (href == null) return fallback;
     final Match? match = _pageQuery.firstMatch(href);
     if (match == null) return fallback;

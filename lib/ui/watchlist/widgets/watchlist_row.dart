@@ -39,7 +39,7 @@ class WatchlistRow extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: dimens.space4,
-              vertical: dimens.space3,
+              vertical: 10,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

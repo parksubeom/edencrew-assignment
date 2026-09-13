@@ -31,13 +31,13 @@ class WatchlistItem {
 /// 있던 행은 그대로 보이고 새로 추가된 행만 스켈레톤으로 나타납니다.
 final FutureProvider<Map<String, Quote>> watchlistQuotesProvider =
     FutureProvider<Map<String, Quote>>((Ref ref) async {
-  final List<StockRef> favorites = ref.watch(favoritesProvider);
-  if (favorites.isEmpty) return const <String, Quote>{};
+      final List<StockRef> favorites = ref.watch(favoritesProvider);
+      if (favorites.isEmpty) return const <String, Quote>{};
 
-  return ref.watch(stockRepositoryProvider).loadQuotes(
-        <String>[for (final StockRef favorite in favorites) favorite.symbol],
-      );
-});
+      return ref.watch(stockRepositoryProvider).loadQuotes(<String>[
+        for (final StockRef favorite in favorites) favorite.symbol,
+      ]);
+    });
 
 /// 정렬 기준입니다. 앱을 다시 켜도 마지막 선택이 남습니다.
 class SortOptionNotifier extends Notifier<SortOption> {
@@ -45,8 +45,8 @@ class SortOptionNotifier extends Notifier<SortOption> {
 
   @override
   SortOption build() => SortOption.fromStorage(
-        ref.read(sharedPreferencesProvider).getString(_key),
-      );
+    ref.read(sharedPreferencesProvider).getString(_key),
+  );
 
   void select(SortOption option) {
     if (option == state) return;
@@ -64,18 +64,18 @@ final NotifierProvider<SortOptionNotifier, SortOption> sortOptionProvider =
 /// 그리기만" 하도록 두기 위해서입니다.
 final Provider<List<WatchlistItem>> watchlistItemsProvider =
     Provider<List<WatchlistItem>>((Ref ref) {
-  final List<StockRef> favorites = ref.watch(favoritesProvider);
-  final Map<String, Quote> quotes =
-      ref.watch(watchlistQuotesProvider).value ?? const <String, Quote>{};
-  final SortOption sortOption = ref.watch(sortOptionProvider);
+      final List<StockRef> favorites = ref.watch(favoritesProvider);
+      final Map<String, Quote> quotes =
+          ref.watch(watchlistQuotesProvider).value ?? const <String, Quote>{};
+      final SortOption sortOption = ref.watch(sortOptionProvider);
 
-  final List<WatchlistItem> items = <WatchlistItem>[
-    for (final StockRef favorite in favorites)
-      WatchlistItem(stock: favorite, quote: quotes[favorite.symbol]),
-  ];
+      final List<WatchlistItem> items = <WatchlistItem>[
+        for (final StockRef favorite in favorites)
+          WatchlistItem(stock: favorite, quote: quotes[favorite.symbol]),
+      ];
 
-  return sortWatchlist(items, sortOption);
-});
+      return sortWatchlist(items, sortOption);
+    });
 
 /// 정렬 규칙입니다.
 ///

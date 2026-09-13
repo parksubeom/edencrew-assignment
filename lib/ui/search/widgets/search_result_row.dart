@@ -53,8 +53,8 @@ class SearchResultRow extends ConsumerWidget {
             padding: EdgeInsets.only(
               left: dimens.space4,
               right: dimens.space2,
-              top: dimens.space3,
-              bottom: dimens.space3,
+              top: 10,
+              bottom: 10,
             ),
             child: Row(
               children: <Widget>[

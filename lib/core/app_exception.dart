@@ -8,15 +8,15 @@ class StockDataException implements Exception {
 
   /// 네트워크 자체가 닿지 않을 때입니다.
   const StockDataException.network({Object? cause})
-      : this('네트워크에 연결할 수 없습니다.', cause: cause);
+    : this('네트워크에 연결할 수 없습니다.', cause: cause);
 
   /// 응답은 왔지만 상태 코드가 정상이 아닐 때입니다.
   const StockDataException.badResponse(int statusCode)
-      : this('시세를 불러오지 못했습니다. (HTTP $statusCode)');
+    : this('시세를 불러오지 못했습니다. (HTTP $statusCode)');
 
   /// 응답 모양이 예상과 다를 때입니다.
   const StockDataException.parse({Object? cause})
-      : this('응답을 해석하지 못했습니다.', cause: cause);
+    : this('응답을 해석하지 못했습니다.', cause: cause);
 
   /// 사용자에게 그대로 보여줄 문구입니다.
   final String message;

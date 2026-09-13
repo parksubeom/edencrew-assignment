@@ -23,8 +23,9 @@ class WatchlistScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<WatchlistItem> items = ref.watch(watchlistItemsProvider);
-    final AsyncValue<Map<String, Quote>> quotes =
-        ref.watch(watchlistQuotesProvider);
+    final AsyncValue<Map<String, Quote>> quotes = ref.watch(
+      watchlistQuotesProvider,
+    );
     final SortOption sortOption = ref.watch(sortOptionProvider);
 
     return SafeArea(
@@ -85,38 +86,46 @@ class _WatchlistHeader extends StatelessWidget {
     final AppColors colors = context.colors;
     final AppDimens dimens = context.dimens;
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        dimens.space4,
-        dimens.space2,
-        dimens.space2,
-        dimens.space2,
-      ),
-      child: Row(
-        children: <Widget>[
-          Text(
-            '관심',
-            style: TextStyle(
-              color: colors.textPrimary,
-              fontSize: 20,
-              fontWeight: AppTypography.bold,
-              height: 1.4,
+    return SizedBox(
+      // 시안의 헤더 높이입니다. IconButton의 기본 터치 영역(48)에 맡기면
+      // 헤더가 시안보다 두꺼워져서 높이를 직접 잡았습니다.
+      height: 52,
+      child: Padding(
+        padding: EdgeInsets.only(left: dimens.space4, right: dimens.space2),
+        child: Row(
+          children: <Widget>[
+            Text(
+              '관심',
+              style: TextStyle(
+                color: colors.textPrimary,
+                fontSize: 20,
+                fontWeight: AppTypography.bold,
+                height: 1.4,
+              ),
             ),
-          ),
-          const Spacer(),
-          _SortChip(label: sortOption.label, onTap: onSortTap),
-          SizedBox(width: dimens.space1),
-          IconButton(
-            // 조회 중에 또 누르면 요청이 겹치므로 잠급니다.
-            onPressed: isRefreshing ? null : onRefresh,
-            icon: Icon(
-              Icons.refresh_rounded,
-              size: 22,
-              color: isRefreshing ? colors.textDisabled : colors.textSecondary,
+            const Spacer(),
+            _SortChip(label: sortOption.label, onTap: onSortTap),
+            SizedBox(width: dimens.space1),
+            Tooltip(
+              message: '시세 새로고침',
+              child: InkResponse(
+                // 조회 중에 또 누르면 요청이 겹치므로 잠급니다.
+                onTap: isRefreshing ? null : onRefresh,
+                radius: dimens.space5,
+                child: Padding(
+                  padding: EdgeInsets.all(dimens.space2),
+                  child: Icon(
+                    Icons.refresh_rounded,
+                    size: 22,
+                    color: isRefreshing
+                        ? colors.textDisabled
+                        : colors.textSecondary,
+                  ),
+                ),
+              ),
             ),
-            tooltip: '시세 새로고침',
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -85,11 +85,7 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              selected ? activeIcon : inactiveIcon,
-              size: 24,
-              color: color,
-            ),
+            Icon(selected ? activeIcon : inactiveIcon, size: 24, color: color),
             const SizedBox(height: 2),
             Text(
               label,

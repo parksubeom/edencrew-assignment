@@ -43,15 +43,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _onToggleFavorite(StockRef stock) {
-    final bool isNowFavorite =
-        ref.read(favoritesProvider.notifier).toggle(stock);
+    final bool isNowFavorite = ref
+        .read(favoritesProvider.notifier)
+        .toggle(stock);
 
     _showToast(
       ToastMessage(
         text: isNowFavorite ? '관심이 등록되었습니다' : '관심이 해제되었습니다',
-        icon: isNowFavorite
-            ? Icons.star_rounded
-            : Icons.star_border_rounded,
+        icon: isNowFavorite ? Icons.star_rounded : Icons.star_border_rounded,
         iconColor: isNowFavorite
             ? context.colors.favoriteActive
             : context.colors.textSecondary,
@@ -77,9 +76,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _openDetail(StockRef stock) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => DetailScreen(stock: stock)),
-    );
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => DetailScreen(stock: stock)));
   }
 
   @override
@@ -123,10 +122,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             left: dimens.space4,
             right: dimens.space4,
             bottom: dimens.space3,
-            child: ToastPresenter(
-              message: _toast,
-              visible: _isToastVisible,
-            ),
+            child: ToastPresenter(message: _toast, visible: _isToastVisible),
           ),
         ],
       ),
@@ -166,7 +162,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       return EmptyStateView(
         icon: Icons.search_off_rounded,
         title: '검색 결과가 없습니다',
-        description: "'${_forDisplay(query.committed)}'와\n"
+        description:
+            "'${_forDisplay(query.committed)}'와\n"
             '일치하는 검색 결과를 찾지 못했습니다.',
       );
     }

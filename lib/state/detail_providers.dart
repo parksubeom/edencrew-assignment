@@ -14,14 +14,18 @@ import 'providers.dart';
 /// 않고, 관심 목록에서 바로 들어왔거나 앱을 다시 켠 뒤라면 메타데이터
 /// endpoint를 한 번 호출합니다.
 final stockMetaProvider = FutureProvider.family<StockRef, String>(
-  (Ref ref, String symbol) => ref.watch(stockRepositoryProvider).loadMeta(symbol),
+  (Ref ref, String symbol) =>
+      ref.watch(stockRepositoryProvider).loadMeta(symbol),
 );
 
 /// 상세 화면의 현재가 · 등락 · 요약 카드에 쓰는 시세입니다.
-final stockQuoteProvider =
-    FutureProvider.family<Quote, String>((Ref ref, String symbol) async {
-  final Map<String, Quote> quotes =
-      await ref.watch(stockRepositoryProvider).loadQuotes(<String>[symbol]);
+final stockQuoteProvider = FutureProvider.family<Quote, String>((
+  Ref ref,
+  String symbol,
+) async {
+  final Map<String, Quote> quotes = await ref
+      .watch(stockRepositoryProvider)
+      .loadQuotes(<String>[symbol]);
 
   final Quote? quote = quotes[symbol];
   if (quote == null) {
@@ -62,7 +66,7 @@ class DailyPriceRequest {
 /// `3개월`로 갔다가 돌아오면 두 번째에는 요청이 나가지 않습니다.
 final dailyPricesProvider =
     FutureProvider.family<List<DailyPrice>, DailyPriceRequest>(
-  (Ref ref, DailyPriceRequest request) => ref
-      .watch(stockRepositoryProvider)
-      .loadDailyPrices(request.symbol, request.period),
-);
+      (Ref ref, DailyPriceRequest request) => ref
+          .watch(stockRepositoryProvider)
+          .loadDailyPrices(request.symbol, request.period),
+    );

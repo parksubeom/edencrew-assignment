@@ -19,9 +19,7 @@ import 'providers.dart';
 class SearchQuery {
   const SearchQuery({required this.raw, required this.committed});
 
-  const SearchQuery.empty()
-      : raw = '',
-        committed = '';
+  const SearchQuery.empty() : raw = '', committed = '';
 
   /// 입력창에 보이는 값 그대로입니다.
   final String raw;
@@ -31,17 +29,13 @@ class SearchQuery {
 
   bool get isEmpty => raw.trim().isEmpty;
 
-  SearchQuery copyWith({String? raw, String? committed}) => SearchQuery(
-        raw: raw ?? this.raw,
-        committed: committed ?? this.committed,
-      );
+  SearchQuery copyWith({String? raw, String? committed}) =>
+      SearchQuery(raw: raw ?? this.raw, committed: committed ?? this.committed);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SearchQuery &&
-          other.raw == raw &&
-          other.committed == committed;
+      other is SearchQuery && other.raw == raw && other.committed == committed;
 
   @override
   int get hashCode => Object.hash(raw, committed);
@@ -92,17 +86,19 @@ final NotifierProvider<SearchQueryNotifier, SearchQuery> searchQueryProvider =
 /// 디바운스를 통과한 순간에만 한 번 실행됩니다.
 final FutureProvider<List<StockRef>> searchResultsProvider =
     FutureProvider<List<StockRef>>((Ref ref) async {
-  final String query =
-      ref.watch(searchQueryProvider.select((SearchQuery it) => it.committed));
-  if (query.isEmpty) return const <StockRef>[];
+      final String query = ref.watch(
+        searchQueryProvider.select((SearchQuery it) => it.committed),
+      );
+      if (query.isEmpty) return const <StockRef>[];
 
-  final List<StockRef> results =
-      await ref.watch(stockRepositoryProvider).search(query);
+      final List<StockRef> results = await ref
+          .watch(stockRepositoryProvider)
+          .search(query);
 
-  // 검색 결과에서 바로 상세로 들어가는 경로가 있어서, 이름과 시장을 미리
-  // 캐시에 넣어 둡니다. 상세 화면에서 메타데이터를 다시 받지 않아도 됩니다.
-  for (final StockRef result in results) {
-    ref.read(stockRepositoryProvider).cacheMeta(result);
-  }
-  return results;
-});
+      // 검색 결과에서 바로 상세로 들어가는 경로가 있어서, 이름과 시장을 미리
+      // 캐시에 넣어 둡니다. 상세 화면에서 메타데이터를 다시 받지 않아도 됩니다.
+      for (final StockRef result in results) {
+        ref.read(stockRepositoryProvider).cacheMeta(result);
+      }
+      return results;
+    });

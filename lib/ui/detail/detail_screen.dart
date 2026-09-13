@@ -56,19 +56,24 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         ref.watch(stockMetaProvider(_symbol)).value ?? widget.stock;
     final AsyncValue<Quote> quote = ref.watch(stockQuoteProvider(_symbol));
 
-    final DailyPriceRequest request =
-        DailyPriceRequest(symbol: _symbol, period: _period);
-    final AsyncValue<List<DailyPrice>> dailyPrices =
-        ref.watch(dailyPricesProvider(request));
+    final DailyPriceRequest request = DailyPriceRequest(
+      symbol: _symbol,
+      period: _period,
+    );
+    final AsyncValue<List<DailyPrice>> dailyPrices = ref.watch(
+      dailyPricesProvider(request),
+    );
 
-    ref.listen<AsyncValue<List<DailyPrice>>>(dailyPricesProvider(request),
-        (AsyncValue<List<DailyPrice>>? previous,
-            AsyncValue<List<DailyPrice>> next) {
+    ref.listen<AsyncValue<List<DailyPrice>>>(dailyPricesProvider(request), (
+      AsyncValue<List<DailyPrice>>? previous,
+      AsyncValue<List<DailyPrice>> next,
+    ) {
       final List<DailyPrice>? value = next.value;
       if (value != null) setState(() => _lastPrices = value);
     });
 
-    final List<DailyPrice> prices = dailyPrices.value ?? _lastPrices ?? const <DailyPrice>[];
+    final List<DailyPrice> prices =
+        dailyPrices.value ?? _lastPrices ?? const <DailyPrice>[];
     final bool isChartLoading = dailyPrices.isLoading && prices.isEmpty;
 
     return Scaffold(
@@ -115,11 +120,17 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 190,
+                          // 시안에서 캔들이 차지하는 세로 폭(약 188)에 위아래
+                          // 여백을 더한 값입니다.
+                          height: 220,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: dimens.space4,
-                              vertical: dimens.space4,
+                            // 위 8 / 아래 24로 나눠, 캔들이 실제로 차지하는
+                            // 세로 폭이 시안(약 188)과 같아지게 했습니다.
+                            padding: EdgeInsets.fromLTRB(
+                              dimens.space4,
+                              dimens.space2,
+                              dimens.space4,
+                              dimens.space6,
                             ),
                             child: isChartLoading
                                 ? const _ChartPlaceholder()
@@ -166,7 +177,8 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                   ),
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      height: MediaQuery.paddingOf(context).bottom + dimens.space6,
+                      height:
+                          MediaQuery.paddingOf(context).bottom + dimens.space6,
                     ),
                   ),
                 ],
@@ -200,61 +212,67 @@ class _DetailHeader extends ConsumerWidget {
           ),
         ),
       ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          dimens.space2,
-          dimens.space2,
-          dimens.space2,
-          dimens.space3,
-        ),
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              onPressed: () => Navigator.of(context).maybePop(),
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                size: 22,
-                color: colors.textPrimary,
-              ),
-              tooltip: '뒤로',
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    stock.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+      child: SizedBox(
+        // 시안의 상세 헤더 높이입니다. IconButton의 기본 터치 영역(48)에
+        // 맡기면 헤더가 시안보다 두꺼워져서 높이를 직접 잡았습니다.
+        height: 53,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: dimens.space2),
+          child: Row(
+            children: <Widget>[
+              Tooltip(
+                message: '뒤로',
+                child: InkResponse(
+                  onTap: () => Navigator.of(context).maybePop(),
+                  radius: dimens.space5,
+                  child: Padding(
+                    padding: EdgeInsets.all(dimens.space2),
+                    child: Icon(
+                      Icons.arrow_back_rounded,
+                      size: 22,
                       color: colors.textPrimary,
-                      fontSize: 18,
-                      fontWeight: AppTypography.bold,
-                      height: 1.35,
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    stock.symbolWithMarket,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: colors.textTertiary,
-                      fontSize: 12,
-                      fontWeight: AppTypography.regular,
-                      height: 1.35,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-            SizedBox(width: dimens.space2),
-            FavoriteStarButton(
-              isFavorite: isFavorite,
-              onTap: () => ref.read(favoritesProvider.notifier).toggle(stock),
-            ),
-          ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      stock.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: colors.textPrimary,
+                        fontSize: 18,
+                        fontWeight: AppTypography.bold,
+                        height: 1.35,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      stock.symbolWithMarket,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: colors.textTertiary,
+                        fontSize: 12,
+                        fontWeight: AppTypography.regular,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: dimens.space2),
+              FavoriteStarButton(
+                isFavorite: isFavorite,
+                onTap: () => ref.read(favoritesProvider.notifier).toggle(stock),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -305,7 +323,7 @@ class _PriceHeadline extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 3),
           child: Row(
             children: <Widget>[
-              if (icon != null) Icon(icon, size: 22, color: color),
+              if (icon != null) Icon(icon, size: 30, color: color),
               Text(
                 '${Formatters.absoluteChange(value.change)} '
                 '(${Formatters.signedRate(value.changeRatePercent, value.direction)})',
@@ -350,14 +368,14 @@ class _SummaryPlaceholder extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     Widget card() => Expanded(
-          child: Container(
-            height: 54,
-            decoration: BoxDecoration(
-              color: context.colors.surfaceRaised,
-              borderRadius: BorderRadius.circular(dimens.radiusMd),
-            ),
-          ),
-        );
+      child: Container(
+        height: 54,
+        decoration: BoxDecoration(
+          color: context.colors.surfaceRaised,
+          borderRadius: BorderRadius.circular(dimens.radiusMd),
+        ),
+      ),
+    );
 
     return Column(
       children: <Widget>[

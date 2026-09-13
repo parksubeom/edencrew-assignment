@@ -21,7 +21,7 @@ class SearchField extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Container(
-      height: 44,
+      height: 40,
       decoration: BoxDecoration(
         color: colors.surfaceSunken,
         borderRadius: BorderRadius.circular(dimens.radiusLg),

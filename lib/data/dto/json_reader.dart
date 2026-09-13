@@ -10,7 +10,8 @@ abstract final class JsonReader {
     if (value is num) return value.round();
     if (value is String) {
       final String cleaned = value.replaceAll(',', '').trim();
-      return int.tryParse(cleaned) ?? double.tryParse(cleaned)?.round() ??
+      return int.tryParse(cleaned) ??
+          double.tryParse(cleaned)?.round() ??
           fallback;
     }
     return fallback;

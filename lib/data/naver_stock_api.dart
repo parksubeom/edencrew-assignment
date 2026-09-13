@@ -60,7 +60,8 @@ class NaverStockApi {
     );
 
     final Map<String, dynamic> json = await _client.getJson(uri);
-    final Map<String, dynamic>? result = json['result'] as Map<String, dynamic>?;
+    final Map<String, dynamic>? result =
+        json['result'] as Map<String, dynamic>?;
     final List<dynamic> areas =
         result?['areas'] as List<dynamic>? ?? const <dynamic>[];
 

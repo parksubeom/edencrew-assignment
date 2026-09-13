@@ -13,10 +13,10 @@ class StockMetaDto {
   });
 
   factory StockMetaDto.fromJson(Map<String, dynamic> json) => StockMetaDto(
-        symbolCode: JsonReader.stringOr(json['symbolCode']),
-        stockName: JsonReader.stringOr(json['stockName']),
-        stockExchangeNameKor: JsonReader.stringOr(json['stockExchangeNameKor']),
-      );
+    symbolCode: JsonReader.stringOr(json['symbolCode']),
+    stockName: JsonReader.stringOr(json['stockName']),
+    stockExchangeNameKor: JsonReader.stringOr(json['stockExchangeNameKor']),
+  );
 
   final String symbolCode;
   final String stockName;
@@ -25,8 +25,8 @@ class StockMetaDto {
   final String stockExchangeNameKor;
 
   StockRef toDomain() => StockRef(
-        symbol: symbolCode,
-        name: stockName,
-        market: stockExchangeNameKor,
-      );
+    symbol: symbolCode,
+    name: stockName,
+    market: stockExchangeNameKor,
+  );
 }

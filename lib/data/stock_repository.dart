@@ -47,8 +47,10 @@ class StockRepository {
     if (symbols.isEmpty) return <String, Quote>{};
 
     final Map<String, Quote> quotes = <String, Quote>{};
-    for (final List<String> batch
-        in _chunks(symbols, NaverStockApi.quoteBatchSize)) {
+    for (final List<String> batch in _chunks(
+      symbols,
+      NaverStockApi.quoteBatchSize,
+    )) {
       final List<RealtimeQuoteDto> dtos = await _api.fetchRealtimeQuotes(batch);
       for (final RealtimeQuoteDto dto in dtos) {
         quotes[dto.symbol] = dto.toDomain();
@@ -81,8 +83,10 @@ class StockRepository {
     String symbol,
     ChartPeriod period,
   ) async {
-    final _DailyPriceCache cache =
-        _dailyPriceCache.putIfAbsent(symbol, _DailyPriceCache.new);
+    final _DailyPriceCache cache = _dailyPriceCache.putIfAbsent(
+      symbol,
+      _DailyPriceCache.new,
+    );
 
     // 1페이지를 먼저 받아야 lastPage를 알 수 있고, 그래야 없는 페이지를
     // 요청하지 않을 수 있습니다.
@@ -96,7 +100,10 @@ class StockRepository {
         if (!cache.hasPage(page)) page,
     ];
 
-    for (final List<int> chunk in _chunks(missingPages, _pageRequestConcurrency)) {
+    for (final List<int> chunk in _chunks(
+      missingPages,
+      _pageRequestConcurrency,
+    )) {
       final List<DailyPricePageDto> pages = await Future.wait(
         chunk.map((int page) => _api.fetchDailyPricePage(symbol, page)),
       );
@@ -109,8 +116,7 @@ class StockRepository {
   }
 
   /// 상세 화면에서 새로고침할 때처럼, 캐시를 버리고 다시 받아야 할 때 씁니다.
-  void invalidateDailyPrices(String symbol) =>
-      _dailyPriceCache.remove(symbol);
+  void invalidateDailyPrices(String symbol) => _dailyPriceCache.remove(symbol);
 
   /// [items]를 [size]개씩 끊어 돌려줍니다.
   static Iterable<List<T>> _chunks<T>(List<T> items, int size) sync* {

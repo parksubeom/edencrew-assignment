@@ -17,10 +17,16 @@ class FavoriteStorage {
   final SharedPreferences _preferences;
 
   /// 저장 형식이 바뀌면 키를 올려 이전 값을 무시할 수 있게 버전을 붙였습니다.
-  static const String _key = 'favorites.v1';
+  static const String key = 'favorites.v1';
 
-  List<StockRef> load() {
-    final String? raw = _preferences.getString(_key);
+  /// 직렬화 규칙을 [FavoriteStorage] 밖에서도 쓸 수 있게 static으로 둡니다.
+  /// (테스트에서 저장된 상태를 만들 때 같은 규칙을 다시 적지 않기 위해서입니다.)
+  static String encode(List<StockRef> favorites) =>
+      jsonEncode(<Map<String, dynamic>>[
+        for (final StockRef favorite in favorites) favorite.toJson(),
+      ]);
+
+  static List<StockRef> decode(String? raw) {
     if (raw == null || raw.isEmpty) return const <StockRef>[];
     try {
       final List<dynamic> decoded = jsonDecode(raw) as List<dynamic>;
@@ -35,20 +41,16 @@ class FavoriteStorage {
     }
   }
 
-  Future<void> save(List<StockRef> favorites) => _preferences.setString(
-        _key,
-        jsonEncode(
-          <Map<String, dynamic>>[
-            for (final StockRef favorite in favorites) favorite.toJson(),
-          ],
-        ),
-      );
+  List<StockRef> load() => decode(_preferences.getString(key));
+
+  Future<void> save(List<StockRef> favorites) =>
+      _preferences.setString(key, encode(favorites));
 }
 
 final Provider<FavoriteStorage> favoriteStorageProvider =
     Provider<FavoriteStorage>(
-  (Ref ref) => FavoriteStorage(ref.watch(sharedPreferencesProvider)),
-);
+      (Ref ref) => FavoriteStorage(ref.watch(sharedPreferencesProvider)),
+    );
 
 /// 앱 전체가 공유하는 관심 목록입니다.
 ///
@@ -97,8 +99,8 @@ final NotifierProvider<FavoritesNotifier, List<StockRef>> favoritesProvider =
 /// 목록 전체를 구독하면 다른 종목이 추가될 때마다 모든 별 아이콘이 다시
 /// 그려집니다. `select`로 필요한 값만 보게 해서 그 리빌드를 막습니다.
 bool watchIsFavorite(WidgetRef ref, String symbol) => ref.watch(
-      favoritesProvider.select(
-        (List<StockRef> favorites) => favorites
-            .any((StockRef favorite) => favorite.symbol == symbol),
-      ),
-    );
+  favoritesProvider.select(
+    (List<StockRef> favorites) =>
+        favorites.any((StockRef favorite) => favorite.symbol == symbol),
+  ),
+);

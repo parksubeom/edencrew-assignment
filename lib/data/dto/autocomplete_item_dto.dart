@@ -50,10 +50,7 @@ class AutocompleteItemDto {
   /// 시세 · 일별 시세 endpoint가 받지 않는 코드라, 검색 결과에 남겨 두면
   /// 눌렀을 때 빈 화면이 됩니다. 그래서 여기서 걸러냅니다.
   bool get isDomesticStock =>
-      nationCode == 'KOR' &&
-      category == 'stock' &&
-      _sixDigits.hasMatch(code);
+      nationCode == 'KOR' && category == 'stock' && _sixDigits.hasMatch(code);
 
-  StockRef toDomain() =>
-      StockRef(symbol: code, name: name, market: typeName);
+  StockRef toDomain() => StockRef(symbol: code, name: name, market: typeName);
 }

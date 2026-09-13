@@ -10,29 +10,29 @@ import '../../theme/theme.dart';
 /// 하는 목적도 있습니다.
 extension PriceDirectionColors on AppColors {
   Color textColorOf(PriceDirection direction) => switch (direction) {
-        PriceDirection.up => priceUpText,
-        PriceDirection.down => priceDownText,
-        PriceDirection.flat => priceFlatText,
-      };
+    PriceDirection.up => priceUpText,
+    PriceDirection.down => priceDownText,
+    PriceDirection.flat => priceFlatText,
+  };
 
   Color backgroundColorOf(PriceDirection direction) => switch (direction) {
-        PriceDirection.up => priceUpBg,
-        PriceDirection.down => priceDownBg,
-        PriceDirection.flat => priceFlatBg,
-      };
+    PriceDirection.up => priceUpBg,
+    PriceDirection.down => priceDownBg,
+    PriceDirection.flat => priceFlatBg,
+  };
 
   Color chartColorOf(PriceDirection direction) => switch (direction) {
-        PriceDirection.up => chartLineUp,
-        PriceDirection.down => chartLineDown,
-        PriceDirection.flat => chartLineFlat,
-      };
+    PriceDirection.up => chartLineUp,
+    PriceDirection.down => chartLineDown,
+    PriceDirection.flat => chartLineFlat,
+  };
 }
 
 /// 상세 화면 현재가 옆에 붙는 방향 아이콘입니다. (▲ / ▼)
 ///
 /// 보합일 때는 시안에 아이콘이 없어 표시하지 않습니다.
 IconData? priceDirectionIcon(PriceDirection direction) => switch (direction) {
-      PriceDirection.up => Icons.arrow_drop_up_rounded,
-      PriceDirection.down => Icons.arrow_drop_down_rounded,
-      PriceDirection.flat => null,
-    };
+  PriceDirection.up => Icons.arrow_drop_up,
+  PriceDirection.down => Icons.arrow_drop_down,
+  PriceDirection.flat => null,
+};

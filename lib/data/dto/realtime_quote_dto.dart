@@ -49,13 +49,13 @@ class RealtimeQuoteDto {
   final int listedShareCount;
 
   Quote toDomain() => Quote(
-        symbol: symbol,
-        currentPrice: currentPrice,
-        previousClose: previousClose,
-        open: open,
-        high: high,
-        low: low,
-        accumulatedVolume: accumulatedVolume,
-        listedShareCount: listedShareCount,
-      );
+    symbol: symbol,
+    currentPrice: currentPrice,
+    previousClose: previousClose,
+    open: open,
+    high: high,
+    low: low,
+    accumulatedVolume: accumulatedVolume,
+    listedShareCount: listedShareCount,
+  );
 }

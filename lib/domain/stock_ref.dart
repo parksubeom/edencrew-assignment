@@ -12,10 +12,10 @@ class StockRef {
   });
 
   factory StockRef.fromJson(Map<String, dynamic> json) => StockRef(
-        symbol: json['symbol'] as String,
-        name: json['name'] as String,
-        market: json['market'] as String,
-      );
+    symbol: json['symbol'] as String,
+    name: json['name'] as String,
+    market: json['market'] as String,
+  );
 
   /// 6자리 종목코드. 예: `005930`
   final String symbol;
@@ -36,16 +36,16 @@ class StockRef {
   String get symbolWithMarket => '$symbol · $market';
 
   StockRef copyWith({String? name, String? market}) => StockRef(
-        symbol: symbol,
-        name: name ?? this.name,
-        market: market ?? this.market,
-      );
+    symbol: symbol,
+    name: name ?? this.name,
+    market: market ?? this.market,
+  );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'symbol': symbol,
-        'name': name,
-        'market': market,
-      };
+    'symbol': symbol,
+    'name': name,
+    'market': market,
+  };
 
   @override
   bool operator ==(Object other) =>

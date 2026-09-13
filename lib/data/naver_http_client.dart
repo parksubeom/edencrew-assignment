@@ -20,8 +20,8 @@ import '../core/app_exception.dart';
 ///    예외 타입을 알 필요가 없게 합니다.
 class NaverHttpClient {
   NaverHttpClient({http.Client? client, Duration? timeout})
-      : _client = client ?? http.Client(),
-        _timeout = timeout ?? const Duration(seconds: 10);
+    : _client = client ?? http.Client(),
+      _timeout = timeout ?? const Duration(seconds: 10);
 
   final http.Client _client;
   final Duration _timeout;
@@ -31,7 +31,8 @@ class NaverHttpClient {
   /// 기본 Dart User-Agent로 요청하면 finance.naver.com이 응답을 주지 않는
   /// 경우가 있어 넣어 두었습니다.
   static const Map<String, String> _defaultHeaders = <String, String>{
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+    'User-Agent':
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
         'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
     'Accept-Language': 'ko-KR,ko;q=0.9',
   };
@@ -93,9 +94,10 @@ class NaverHttpClient {
   /// `text/html;charset=EUC-KR` → `euc-kr`
   static String _charsetOf(String? contentType) {
     if (contentType == null) return 'utf-8';
-    final Match? match =
-        RegExp(r'charset\s*=\s*"?([\w-]+)"?', caseSensitive: false)
-            .firstMatch(contentType);
+    final Match? match = RegExp(
+      r'charset\s*=\s*"?([\w-]+)"?',
+      caseSensitive: false,
+    ).firstMatch(contentType);
     return (match?.group(1) ?? 'utf-8').toLowerCase();
   }
 }

@@ -17,17 +17,17 @@ import '../data/stock_repository.dart';
 /// 방식을 택했습니다.
 final Provider<SharedPreferences> sharedPreferencesProvider =
     Provider<SharedPreferences>(
-  (Ref ref) => throw UnimplementedError(
-    'main()에서 sharedPreferencesProvider를 덮어써야 합니다.',
-  ),
-);
+      (Ref ref) => throw UnimplementedError(
+        'main()에서 sharedPreferencesProvider를 덮어써야 합니다.',
+      ),
+    );
 
 final Provider<NaverHttpClient> naverHttpClientProvider =
     Provider<NaverHttpClient>((Ref ref) {
-  final NaverHttpClient client = NaverHttpClient();
-  ref.onDispose(client.close);
-  return client;
-});
+      final NaverHttpClient client = NaverHttpClient();
+      ref.onDispose(client.close);
+      return client;
+    });
 
 final Provider<NaverStockApi> naverStockApiProvider = Provider<NaverStockApi>(
   (Ref ref) => NaverStockApi(ref.watch(naverHttpClientProvider)),
@@ -37,5 +37,5 @@ final Provider<NaverStockApi> naverStockApiProvider = Provider<NaverStockApi>(
 /// (autoDispose를 쓰지 않는 이유입니다.)
 final Provider<StockRepository> stockRepositoryProvider =
     Provider<StockRepository>(
-  (Ref ref) => StockRepository(ref.watch(naverStockApiProvider)),
-);
+      (Ref ref) => StockRepository(ref.watch(naverStockApiProvider)),
+    );
