@@ -28,8 +28,43 @@ AI 도구의 도움을 받았습니다.
    페이지 재사용과 관심 상태 동기화가 그런 경우입니다.
 
 아래 `기술 선택과 이유`와 `직접 판단한 부분`은 그 과정에서 나온 결론입니다.
-비교한 대안도 함께 적어 두었습니다. 웹에서 쓰던 개념과 대응되는 부분은 그 점도
-적었습니다 — 그게 제가 판단할 수 있었던 근거이기도 해서입니다.
+비교한 대안도 함께 적어 두었습니다.
+
+### 익숙한 것에 대입해서 이해했습니다
+
+Dart와 Flutter가 모두 처음이라, 새 개념을 만날 때마다 **웹에서 쓰던 것에 대응시켜
+보면서** 이해했습니다. 그렇게 정리한 대응이 이 정도입니다.
+
+| Flutter / Riverpod | 웹에서 쓰던 것 |
+| --- | --- |
+| Widget | 컴포넌트 |
+| `StatefulWidget` + `setState` | `useState` |
+| `build()` | 렌더 함수 |
+| `Column` / `Row` | `flex-direction: column / row` |
+| `Expanded` / `Flexible` | `flex: 1` |
+| `Provider` | Zustand 스토어 · Context |
+| `ref.watch(p)` | `useStore(selector)` — 구독 |
+| `ref.read(p)` | `getState()` — 구독 없이 값만 |
+| `p.select(fn)` | `useStore(s => s.x)` |
+| `FutureProvider` | `useQuery` |
+| `.family(arg)` | `queryKey: [key, arg]` |
+| `AsyncValue` | `{ isLoading, error, data }` |
+| `ref.invalidate(p)` | `queryClient.invalidateQueries()` |
+| `Future` / `async` · `await` | `Promise` / `async` · `await` (거의 그대로) |
+| `CustomPainter` | `<canvas>` 2D 컨텍스트 |
+
+이 대응이 전부 들어맞지는 않았습니다. 두 가지가 특히 그랬습니다.
+
+- **`BuildContext`** — 딱 맞는 짝이 없어서 따로 이해해야 했습니다. 위젯 트리에서 "내
+  위치"를 가리키는 핸들이고, `Theme.of(context)`가 위쪽으로 올라가며 테마를 찾는
+  방식이 `useContext`와 비슷하다는 선에서 잡았습니다.
+- **위젯 재생성** — React에서는 리렌더를 아끼려고 `memo`를 신경 쓰는데, Flutter는
+  위젯 재생성 자체가 가볍게 설계돼 있어서 감각이 달랐습니다. 대신 `const` 생성자로
+  "이건 안 바뀐다"고 알려주는 방식을 쓰게 됐습니다.
+
+그래도 이 대응 덕분에 라이브러리를 고르거나 구조를 잡을 때 **완전히 감으로 정하지는
+않을 수 있었습니다.** 웹에서 쓰던 개념과 대응되는 부분은 아래 설명에도 함께 적어
+두었습니다.
 
 ---
 
