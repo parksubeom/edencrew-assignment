@@ -1,4 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Naver 시세 endpoint를 호출하므로 인터넷 접근이 필요합니다.
+         Flutter 템플릿은 이 권한을 debug/profile 매니페스트에만 넣어 두기 때문에,
+         release 빌드에서는 네트워크 요청이 전부 실패합니다. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="edencrew_assignment_starter"
         android:name="${applicationName}"
