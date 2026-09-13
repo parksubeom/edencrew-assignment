@@ -111,9 +111,12 @@ List<WatchlistItem> sortWatchlist(
         ),
       );
     case SortOption.name:
-      // 한글 음절은 유니코드 코드포인트 순서가 곧 가나다 순서입니다.
+      // 한글 로케일 정렬기를 따로 붙여야 하나 싶었는데, 한글 음절은 유니코드
+      // 코드포인트 순서가 곧 가나다 순서라 기본 비교로도 맞습니다.
+      // (`watchlist_sort_test.dart`에서 확인했습니다.)
+      //
       // 영문으로 시작하는 이름(SK하이닉스 등)은 코드포인트가 더 작아 앞에
-      // 옵니다. 별도 로케일 정렬기를 붙이지 않고 이 동작을 그대로 씁니다.
+      // 옵니다. 시안에 이 경우가 없어 기본 동작을 그대로 두었습니다.
       sorted.sort(
         (WatchlistItem a, WatchlistItem b) =>
             a.stock.name.compareTo(b.stock.name),

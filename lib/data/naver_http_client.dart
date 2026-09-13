@@ -13,9 +13,9 @@ import '../core/app_exception.dart';
 /// 1. **문자 인코딩.** 네 endpoint의 charset이 서로 다릅니다.
 ///    자동완성과 메타데이터는 UTF-8이지만, 실시간 시세는
 ///    `text/plain;charset=EUC-KR`, 일별 시세 HTML은
-///    `text/html;charset=EUC-KR`로 내려옵니다. `http` 패키지의
-///    `response.body`는 이 경우 한글을 깨뜨리므로, 응답 헤더의 charset을
-///    보고 바이트를 직접 디코딩합니다.
+///    `text/html;charset=EUC-KR`로 내려옵니다. 처음에는 `response.body`를
+///    그대로 썼는데 한글이 깨져서, 응답 헤더의 charset을 보고 바이트를
+///    직접 디코딩하도록 바꿨습니다.
 /// 2. **실패를 [StockDataException]으로 정규화.** 화면이 dio/http의
 ///    예외 타입을 알 필요가 없게 합니다.
 class NaverHttpClient {
@@ -73,9 +73,10 @@ class NaverHttpClient {
 
   /// Content-Type의 charset을 보고 바이트를 디코딩합니다.
   ///
-  /// EUC-KR 계열이면 `charset` 패키지의 순수 Dart 코덱을 씁니다. 플랫폼
-  /// 채널을 쓰는 변환기(`charset_converter`)를 피한 이유는, 이 앱이
-  /// 모바일·데스크톱을 모두 대상으로 하기 때문입니다.
+  /// EUC-KR을 다루는 방법을 두 가지 찾았습니다. `charset_converter`는 각
+  /// 플랫폼의 변환기를 플랫폼 채널로 부르고, `charset`은 순수 Dart로
+  /// 구현되어 있습니다. 대상 플랫폼이 늘어날 때 신경 쓸 일이 적은 쪽이
+  /// 낫다고 보고 `charset`을 골랐습니다.
   String _decodeBody(http.Response response) {
     final String charsetName = _charsetOf(response.headers['content-type']);
     try {

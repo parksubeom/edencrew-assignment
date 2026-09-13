@@ -99,8 +99,11 @@ abstract final class SiseDayParser {
   /// `전일비` 칸을 부호 있는 등락액으로 바꿉니다.
   ///
   /// 숫자 자체는 절댓값이고 방향은 `<em>`의 class에만 들어 있습니다.
-  /// `<span class="blind">`의 한글(상승/하락/보합) 대신 class를 보는 이유는,
-  /// class가 문자 인코딩과 무관하게 안정적이기 때문입니다.
+  ///
+  /// 방향을 읽는 방법이 두 가지였습니다. `<span class="blind">`의
+  /// 한글(상승/하락/보합)을 보는 것과 class 이름을 보는 것입니다. 이 응답은
+  /// EUC-KR이라 디코딩이 한 단계 끼는데, class는 ASCII라 그 영향을 받지
+  /// 않아서 class 쪽을 골랐습니다.
   static int _parseChange(dom.Element cell) {
     final int magnitude = _parseNumber(
       cell.querySelector('span.tah')?.text ?? cell.text,

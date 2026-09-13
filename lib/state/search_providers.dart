@@ -43,8 +43,11 @@ class SearchQuery {
 
 class SearchQueryNotifier extends Notifier<SearchQuery> {
   /// 한글은 자모가 조합되는 동안에도 onChanged가 계속 불립니다.
-  /// 300ms면 한 글자를 마저 조립할 시간은 되면서, 입력을 멈춘 뒤
-  /// 기다린다는 느낌은 들지 않는 값이라 선택했습니다.
+  /// `삼성`을 치면 `ㅅ`부터 여러 번 불리는 셈이라 그때마다 요청을 보내면
+  /// 낭비입니다.
+  ///
+  /// 300ms는 웹에서 검색 입력에 흔히 쓰던 값을 그대로 가져왔습니다. 한 글자를
+  /// 마저 조립할 시간은 되면서 기다린다는 느낌은 들지 않는 구간입니다.
   static const Duration debounceDuration = Duration(milliseconds: 300);
 
   Timer? _debounce;
