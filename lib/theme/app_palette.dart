@@ -41,4 +41,11 @@ abstract final class AppPalette {
   static const Color redAlpha12 = Color(0x1FFF5B5B);
   static const Color blueAlpha12 = Color(0x1F4D9BEE);
   static const Color violetAlpha12 = Color(0x1F8B7CF6);
+
+  /// 과제 진행 중 추가한 값입니다. (Figma `Primitives`에는 없습니다.)
+  ///
+  /// 정렬 바텀시트가 열렸을 때 뒤 화면을 덮는 막의 색입니다. 시안에는
+  /// 이 막이 그려져 있지만 대응하는 변수가 없어서, 화면 코드에 검정을
+  /// 직접 쓰는 대신 토큰으로 올려 두었습니다. (60% 불투명도)
+  static const Color blackAlpha60 = Color(0x99000000);
 }

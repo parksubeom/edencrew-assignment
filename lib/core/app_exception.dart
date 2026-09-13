@@ -28,3 +28,11 @@ class StockDataException implements Exception {
   String toString() =>
       'StockDataException($message)${cause == null ? '' : ' <- $cause'}';
 }
+
+/// 화면에 보여줄 문구를 꺼냅니다.
+///
+/// 예상하지 못한 예외까지 화면에 그대로 흘리지 않기 위해, 우리가 만든
+/// 예외가 아니면 일반적인 문구로 바꿉니다.
+String userMessageOf(Object error) => error is StockDataException
+    ? error.message
+    : '문제가 발생했습니다. 잠시 후 다시 시도해 주세요.';

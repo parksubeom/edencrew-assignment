@@ -42,6 +42,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.feedbackWarning,
     required this.feedbackSkeleton,
     required this.searchHighlight,
+    required this.scrim,
   });
 
   /// Figma `Semantic` 컬렉션의 Dark 모드 값입니다.
@@ -78,7 +79,8 @@ class AppColors extends ThemeExtension<AppColors> {
         navInactive = AppPalette.neutral300,
         feedbackWarning = AppPalette.amber500,
         feedbackSkeleton = AppPalette.neutral700,
-        searchHighlight = AppPalette.violet500;
+        searchHighlight = AppPalette.violet500,
+        scrim = AppPalette.blackAlpha60;
 
   /// 화면 배경 계층.
   final Color surfaceBase;
@@ -135,6 +137,13 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 검색 결과에서 검색어와 일치하는 부분.
   final Color searchHighlight;
 
+  /// 바텀시트가 열렸을 때 뒤 화면을 덮는 막입니다.
+  ///
+  /// 과제 진행 중 추가한 토큰입니다. Figma `Semantic`에는 대응 변수가 없지만
+  /// 시안에 막이 그려져 있어, 화면 코드에서 검정을 직접 쓰지 않도록
+  /// 토큰으로 올렸습니다.
+  final Color scrim;
+
   @override
   AppColors copyWith({
     Color? surfaceBase,
@@ -170,6 +179,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? feedbackWarning,
     Color? feedbackSkeleton,
     Color? searchHighlight,
+    Color? scrim,
   }) {
     return AppColors(
       surfaceBase: surfaceBase ?? this.surfaceBase,
@@ -205,6 +215,7 @@ class AppColors extends ThemeExtension<AppColors> {
       feedbackWarning: feedbackWarning ?? this.feedbackWarning,
       feedbackSkeleton: feedbackSkeleton ?? this.feedbackSkeleton,
       searchHighlight: searchHighlight ?? this.searchHighlight,
+      scrim: scrim ?? this.scrim,
     );
   }
 
@@ -245,6 +256,7 @@ class AppColors extends ThemeExtension<AppColors> {
       feedbackWarning: Color.lerp(feedbackWarning, other.feedbackWarning, t)!,
       feedbackSkeleton: Color.lerp(feedbackSkeleton, other.feedbackSkeleton, t)!,
       searchHighlight: Color.lerp(searchHighlight, other.searchHighlight, t)!,
+      scrim: Color.lerp(scrim, other.scrim, t)!,
     );
   }
 }
