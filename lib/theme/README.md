@@ -69,8 +69,14 @@ SizedBox(height: context.dimens.space4)
 | `feedback/warning` | `feedbackWarning` | `amber/500` | `#E8973A` |
 | `feedback/skeleton` | `feedbackSkeleton` | `neutral/700` | `#23231F` |
 | `search/highlight` | `searchHighlight` | `violet/500` | `#8B7CF6` |
+| *(과제 중 추가)* | `scrim` | `black/alpha-60` | `#000000` 60% |
 
 `alpha-12`는 해당 색상의 12% 불투명도입니다. (`0.12 × 255 = 31 = 0x1F`)
+
+> **`scrim`은 과제 진행 중 추가한 토큰입니다.** 정렬 바텀시트가 열렸을 때 뒤 화면을
+> 덮는 막이 시안에 있는데 `Semantic`에 대응 변수가 없었습니다. 화면 코드에 검정을
+> 직접 쓰지 않으려고 `AppPalette.blackAlpha60` → `AppColors.scrim`으로 올렸습니다.
+> 기존 토큰 값은 하나도 바꾸지 않았습니다.
 
 등락 색상은 국내 시장 관행을 따릅니다. **상승은 빨강, 하락은 파랑**입니다.
 
